@@ -1,8 +1,11 @@
 <template>
-  <h1>Calcula tu venta</h1>
+  <body>
+    <div class="title">
+    <img src="../assets/LogoTDP.png" alt="Tejido DP">
+    <h1>Calcula tu venta</h1> 
+  </div>
     <div class="container">
-
-      <form @submit.prevent="calcular">
+        <form @submit.prevent="calcular">
         <div>
           <label>Hora: </label>
           <input v-model.number="datos.hours" type="number" step="any" required>
@@ -10,15 +13,15 @@
           <input v-model.number="datos.minutes" type="number" step="any" required>
         </div>
         <div>
-          <br><label>Peso lana comprada (gramos): </label><br>
+          <label>Peso lana comprada (gramos): </label><br>
           <input v-model.number="datos.purchasedLana" type="number" step="any" required>
         </div>
         <div>
-          <br><label>Valor lana: </label><br>
+          <label>Valor lana: </label><br>
           <input v-model.number="datos.costLana" type="number" step="any" required>
         </div>
         <div>
-          <br><label>Cantidad lana usada (gramos): </label><br>
+          <label>Cantidad lana usada (gramos): </label><br>
           <input v-model.number="datos.quantityLana" type="number" step="any" required>
         </div>
         <div>
@@ -35,7 +38,7 @@
           </div>
         </div>
         <div>
-          <br><label>Comisión (%): </label><br>
+          <label>Comisión (%): </label><br>
           <input v-model.number="datos.comision" type="number" step="any" required>
         </div>
         <button type="submit">Calcular</button>
@@ -43,25 +46,25 @@
     
       <div v-if="resultado" class="resultado">
         <h2>Resultados</h2>
-        <p>Promedio: {{ resultado.promedio }}</p>
-        <p>Comisión: {{ resultado.priceComision }}</p>
-        <p>Total: {{ resultado.priceTotal }}</p>
-        <p>Mi pago: {{ resultado.priceTiempo }}</p>
-        <p>Material: {{ resultado.totalMaterial }}</p>
-      </div> 
-  
-    </div>
+        <p>Total: {{ formatNumber(resultado.priceTotal) }}</p>
+        <p>Promedio: {{ formatNumber(resultado.promedio) }}</p>
+        <p>Comisión: {{ formatNumber(resultado.priceComision) }}</p>        
+        <p>Mi pago: {{ formatNumber(resultado.priceTiempo) }}</p>
+        <p>Material: {{ formatNumber(resultado.totalMaterial) }}</p>
+      </div>  
+    </div>  
+  </body>  
 </template>
   
 <script>
-  import { calcularVenta } from '@/components/calcularVenta.js'; // Ruta corregida
+  import { calcularVenta } from '@/components/calcularVenta.js'; 
   
   export default {
     data() {
       return {
         datos: {
-          hours: null,
-          minutes: null,
+          hours: 0,
+          minutes: 0,
           costLana: null,
           quantityLana: null,
           purchasedLana: null,
@@ -94,29 +97,40 @@
       },
       eliminarAccesorio(index) {
         this.accesorios.splice(index, 1);
+      },
+      // Método formatNumber para formatear los números con separadores de miles
+      formatNumber(value) {
+        return new Intl.NumberFormat('es-CO').format(value);
       }
     }
   };
 </script>
   
 <style scoped>
+  .title{
+    display: flex;
+    height: 80px;
+    justify-content: center;
+    margin: 10px;
+  }
+  .title img{
+    margin-right: 8px;
+  }
   .subpantalla {
-    background-color: #4DF4FF;
+    background-color: #FFF3F3;
     -webkit-text-fill-color: black;
-    width: 50%; /* Ajusta el ancho del fondo Calc_1 */
-    margin: 0 auto; /* Centra horizontalmente */
-    padding: 20px; /* Ajusta el relleno según sea necesario */
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
   }
   .container{
-    display: grid;
-    grid-template-columns: 2fr 3fr;
     margin: auto;
-    padding: 25px;
+    padding: 15px;
     border-style: solid;
     border-radius: 12px;
     height: auto;
     width: max-content;
-    background-color: #4DF4FF;
+    background-color: #FFF3F3;
     -webkit-text-fill-color: black;
   }
   input{
@@ -128,6 +142,7 @@
     font-weight: bold;
   }
   button{
+    background-color: #FFF3F3;
     border-radius: 5px;
     margin-top: 5px;
     margin-right: 2px;
@@ -136,18 +151,26 @@
     font-size: large;
     text-align: center;
   }
+  button:hover {
+    background-color: #ff66c4;
+  }
+  div {
+  margin-bottom: 10px; /* Ejemplo de margen entre secciones */
+  }
   label{
+    margin-right: 10px;
     margin-left: 15px;
     font-weight: bold;
   }
   .resultado{
     margin: auto;
+    margin-top: 10px;
     padding: 25px;
-    border-style: solid;
+    border-style: dashed;
     border-radius: 12px;
     height: auto;
-    width: max-content;
-    background-color: #4DF4FF;
+    width: 180px;
+    background-color: #FFF3F3;
     -webkit-text-fill-color: black;
   }
 </style>
